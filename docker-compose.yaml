@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager-pract10
+    restart: always
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager_configs/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+      - --storage.path=/alertmanager
+    environment:
+      - TZ=Europe/Moscow
+    networks:
+      - monitoring_system_p3
+
+volumes:
+  alertmanager-data:
+
+networks:
+  monitoring_system_p3:
+    external: true
+    name: graphanaobrazcova_monitoring_system_p3
